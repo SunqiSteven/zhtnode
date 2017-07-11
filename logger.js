@@ -1,5 +1,5 @@
-var strftime = require('strftime');
-var fs = require('fs');
+var strftime = require("strftime");
+var fs = require("fs");
 
 
 module.exports = function (config) {
@@ -14,35 +14,35 @@ module.exports = function (config) {
         "warn": 4,
         "error": 5,
         "fatal": 6
-    }
+    };
 
-    config.filename = config.filename || __dirname + '/logs.log';
+    config.filename = config.filename || __dirname + "/logs.log";
 
     config.errorLevel = config.errorLevel || "log";
 
-    var log_file = fs.createWriteStream(config.filename, {flags: 'a'});
+    var log_file = fs.createWriteStream(config.filename, {flags: "a"});
 
     exports.setLevel = function (errorLevel) {
         config.errorLevel = errorLevel;
-    }
+    };
 
     Object.keys(config.levels).forEach(function (name) {
         function log(caption, data) {
             var log = {
                 "level": name,
                 "message": caption,
-                "timestamp": strftime('%F %T', new Date())
-            }
+                "timestamp": strftime("%F %T", new Date())
+            };
 
             data && (log["data"] = data);
 
             if (config.levels[config.errorLevel] <= config.levels[log.level]) {
-                log_file.write(JSON.stringify(log) + '\n');
+                log_file.write(JSON.stringify(log) + "\n");
             }
         }
 
         exports[name] = log;
-    })
+    });
 
     return exports;
-}
+};

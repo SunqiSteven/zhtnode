@@ -2,7 +2,7 @@
 const jwt = require("jwt-simple");
 
 module.exports = (req,res,next)=>{
-    let appConfig = require('./conf');
+    let appConfig = require("./conf");
     try{
         let payload = jwt.decode(req.query.token,appConfig.secret);
         console.log(payload);
@@ -13,4 +13,4 @@ module.exports = (req,res,next)=>{
     }catch(e){
         return res.send({success:false,error:e.message});
     }
-}
+};
