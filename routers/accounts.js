@@ -11,10 +11,9 @@ class Accounts {
         scope.app.use("/api/accounts",router);
     }
     register(req,res){
-
     }
     getAccount(req,res){
-        return res.send({"data":this.scope.config.secret});
+        return res.send({"data":this.scope.config.port});
     }
     login(req,res){
         let jwt = require("jwt-simple");

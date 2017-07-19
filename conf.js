@@ -6,7 +6,7 @@ module.exports = {
         user:"root",
         password:"root",
         database:"td",
-        connectionLimit:5
+        connectionLimit:1
     },
     port:8081,
     version:"0.1.0",

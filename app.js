@@ -11,7 +11,7 @@ if (program.port) {
     appConfig.port = program.port;
 }
 let log = logger({filename:appConfig.logFilePath,errorLevel:appConfig.logLevel});
-// console.log('222');
+
 async.auto({
     config:(cb)=>{
         // console.log("config");
@@ -33,6 +33,13 @@ async.auto({
         // console.log("app");
         const express = require("express");
         let app = express();
+        app.use('/',function(req,res,next){
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+            res.header("Access-Control-Allow-Headers","x-requested-with,content-type");
+            res.header("Content-Type", "application/json;charset=utf-8");
+            next();
+        });
         cb(null,app);
     }],
     routers:["app",(scope,cb)=>{
