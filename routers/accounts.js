@@ -1,5 +1,6 @@
 "use strict";
 
+const helper = require("./helper");
 class Accounts {
     constructor(scope){
         this.scope = scope;
@@ -22,6 +23,11 @@ class Accounts {
         let self = this;
         let token = jwt.encode(payload,self.scope.config.secret);
         return res.send({token:token});
+    }
+    withdraw(req,res){
+        // if (!helper.isInteger(req.uid)){
+        //     return res.send({success:false,error:"invalid uid"});
+        // }
     }
 }
 
