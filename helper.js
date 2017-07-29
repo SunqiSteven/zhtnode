@@ -17,3 +17,7 @@ exports.checkCellphone = function (v){
 exports.checkEmail = function(v){
     return typeof v === "string" && /^[a-z0-9]+[-_]*[a-z0-9]*@[a-z0-9]+(\.\w{2,3}){1,3}$/.test(v);
 }
+exports.genRandom = function(){
+    var n = (Math.random()*100).toFixed(0);
+    return Number(n);
+}
