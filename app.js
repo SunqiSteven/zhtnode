@@ -41,11 +41,12 @@ async.auto({
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods","PUT,POST,GET,DEvarE,OPTIONS");
             res.header("Access-Control-Allow-Headers","x-requested-with,content-type");
-            res.header("Content-Type", "application/json;charset=utf-8");
+            res.header("Content-Type", "application/json; charset=utf-8");
             next();
         });
-        app.get("/docs",(req,res)=>{
-            res.render("index",{title:"hello"});
+        app.get("/header",(req,res)=>{
+            res.header("Content-Type", "text/html; charset=utf-8");
+            res.render("header",{title:"hello"});
         });
         cb(null,app);
     }],
