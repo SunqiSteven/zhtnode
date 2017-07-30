@@ -3,14 +3,14 @@ const async = require("async");
 const program = require("commander");
 const logger = require("./logger");
 
-let appConfig = require("./conf.js");
+var appConfig = require("./conf.js");
 program.version(appConfig.version)
             .option("--port <port>","server listen port")
             .parse(process.argv);
 if (program.port) {
     appConfig.port = program.port;
 }
-let log = logger({filename:appConfig.logFilePath,errorLevel:appConfig.logLevel});
+var log = logger({filename:appConfig.logFilePath,errorLevel:appConfig.logLevel});
 
 async.auto({
     config:(cb)=>{
@@ -20,7 +20,7 @@ async.auto({
     },
     db:["config",(scope,cb)=>{
         const mysql = require("mysql");
-        let db = mysql.createPool({
+        var db = mysql.createPool({
             "user":scope.config.database.user,
             "password":scope.config.database.password,
             "host":scope.config.database.host,
@@ -32,22 +32,29 @@ async.auto({
     app:["config","db",(scope,cb)=>{
         // console.log("app");
         const express = require("express");
-        let app = express();
+        var app = express();
+        app.disable("x-powered-by");
+        app.set("views",__dirname+"/public/views/");
+        app.engine('.html', require('ejs').__express);
+        app.set('view engine', "html");
         app.use("/",function(req,res,next){
             res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+            res.header("Access-Control-Allow-Methods","PUT,POST,GET,DEvarE,OPTIONS");
             res.header("Access-Control-Allow-Headers","x-requested-with,content-type");
             res.header("Content-Type", "application/json;charset=utf-8");
             next();
+        });
+        app.get("/docs",(req,res)=>{
+            res.render("index",{title:"hello"});
         });
         cb(null,app);
     }],
     routers:["app",(scope,cb)=>{
         // console.log("routers");
-        let routers = {"Account":"./routers/accounts"};
+        var routers = {"Account":"./routers/accounts"};
         Object.keys(routers).forEach((key)=>{
-            let r = require(routers[key]);
-            let r_instance = new r(scope);
+            var r = require(routers[key]);
+            var r_instance = new r(scope);
         });
         cb(null);
     }],

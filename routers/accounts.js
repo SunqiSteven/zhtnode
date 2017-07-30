@@ -1,6 +1,6 @@
 "use strict";
 
-const helper = require("./helper");
+const helper = require("../helper");
 class Accounts {
     constructor(scope){
         this.scope = scope;
