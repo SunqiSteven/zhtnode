@@ -35,8 +35,8 @@ async.auto({
         var app = express();
         app.disable("x-powered-by");
         app.set("views",__dirname+"/public/views/");
-        app.engine('.html', require('ejs').__express);
-        app.set('view engine', "html");
+        app.engine(".html", require("ejs").__express);
+        app.set("view engine", "html");
         app.use("/",function(req,res,next){
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods","PUT,POST,GET,DEvarE,OPTIONS");
