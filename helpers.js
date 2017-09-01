@@ -92,3 +92,9 @@ exports.f_div = function (a, b) {
     return c = Number(a.toString().replace(".", "")), d = Number(b.toString().replace(".", "")), mul(c / d, Math.pow(10, f - e));
 };
 
+exports.genRandomNumber =  function(min,max){
+    var range = max-min;
+    var rand = Math.random();
+    var num = min+Math.round(rand*range);
+    return num;
+};
