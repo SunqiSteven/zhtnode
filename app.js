@@ -34,19 +34,15 @@ async.auto({
         const express = require("express");
         var app = express();
         app.disable("x-powered-by");
-        app.set("views",__dirname+"/public/views/");
-        app.engine(".html", require("ejs").__express);
-        app.set("view engine", "html");
+        // app.set("views",__dirname+"/public/views/");
+        // app.engine(".html", require("ejs").__express);
+        // app.set("view engine", "html");
         app.use("/",function(req,res,next){
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods","PUT,POST,GET,DEvarE,OPTIONS");
             res.header("Access-Control-Allow-Headers","x-requested-with,content-type");
             res.header("Content-Type", "application/json; charset=utf-8");
             next();
-        });
-        app.get("/header",(req,res)=>{
-            res.header("Content-Type", "text/html; charset=utf-8");
-            res.render("header",{title:"hello"});
         });
         cb(null,app);
     }],
@@ -68,6 +64,14 @@ async.auto({
     if (err) {
         throw err;
     } else {
-        console.log("application launched");
+        /*
+        graceful shutdown ,close all databases connections, 
+        clear data queues or whatever.
+        */
+        process.on('SIGNIT',(err)=>{
+            scope.db.end((err)=>{
+                process.exit(err ? 1 : 0);
+            });
+        });
     }
 });

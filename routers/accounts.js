@@ -1,12 +1,12 @@
 "use strict";
 
-const helper = require("../helper");
+const helpers = require("../helpers");
 class Accounts {
     constructor(scope){
         this.scope = scope;
-        let router = require("express").Router();
-        let bodyParser = require("body-parser");
-        let auth = require("../auth");
+        var router = require("express").Router();
+        var bodyParser = require("body-parser");
+        var auth = require("../auth");
         router.get("/",this.getAccount.bind(this));
         router.post("/login",bodyParser.json(),this.login.bind(this));
         scope.app.use("/api/accounts",router);
@@ -17,17 +17,12 @@ class Accounts {
         return res.send({"data":this.scope.config.port});
     }
     login(req,res){
-        let jwt = require("jwt-simple");
-        let payload = req.body;
+        var jwt = require("jwt-simple");
+        var payload = req.body;
         payload.exp = Math.round(Date.now/1000)+3600*2;
-        let self = this;
-        let token = jwt.encode(payload,self.scope.config.secret);
+        var self = this;
+        var token = jwt.encode(payload,self.scope.config.secret);
         return res.send({token:token});
-    }
-    withdraw(req,res){
-        // if (!helper.isInteger(req.uid)){
-        //     return res.send({success:false,error:"invalid uid"});
-        // }
     }
 }
 
