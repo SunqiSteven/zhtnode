@@ -15,7 +15,7 @@ var log = logger({filename:appConfig.logFilePath,errorLevel:appConfig.logLevel})
 async.auto({
     config:(cb)=>{
         // console.log("config");
-        log.error("access log");
+        // log.error("access log");
         cb(null,appConfig);
     },
     db:["config",(scope,cb)=>{
@@ -68,7 +68,9 @@ async.auto({
         graceful shutdown ,close all databases connections, 
         clear data queues or whatever.
         */
-        process.on('SIGNIT',(err)=>{
+        process.on('SIGINT',()=>{
+            // console.log('2222');
+            log.error('graceful shutdown');
             scope.db.end((err)=>{
                 process.exit(err ? 1 : 0);
             });
